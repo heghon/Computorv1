@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.cpp                                           :+:      :+:    :+:   */
+/*   computor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 18:04:18 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/12 19:54:41 by bmenant          ###   ########.fr       */
+/*   Created: 2021/12/12 19:30:16 by bmenant           #+#    #+#             */
+/*   Updated: 2021/12/12 19:54:34 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <iostream>
-#include "../inc/computor.h"
+#ifndef COMPUTOR_FUNCTIONS_H
+# define COMPUTOR_FUNCTIONS_H
 
-using namespace std;
+void parse(int paramNbr, char param[]);
 
-int main(int argc, char *argv[])
-{
-    if (argc == 1 || argc > 2)
-    {
-        if (argc > 2)
-            cout << "Warning : Too many parameters" << endl;
-        cout << "Usage : ./computor <Polynomial equation>" << endl << "        Example : \"a * X^0 + b * x^1 + c * X^2 = d\" " << endl;
-    }
-    parse(argc, argv[1]);
-    return 0;
-}
+#endif
