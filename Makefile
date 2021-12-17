@@ -6,12 +6,13 @@
 #    By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:50:28 by bmenant           #+#    #+#              #
-#    Updated: 2021/12/12 19:55:38 by bmenant          ###   ########.fr        #
+#    Updated: 2021/12/17 17:33:38 by bmenant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =			main.cpp \
-				parse.cpp
+				parse.cpp \
+				Equation.cpp
 
 GREEN =			\033[0;32m
 BLUE =			\033[1;34m
