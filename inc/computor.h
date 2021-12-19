@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 19:30:16 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/17 19:32:48 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/19 17:44:58 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 void parse(int paramNbr, char param[]);
 bool strPotentialD(std::string str);
+bool orderCheck(std::vector<std::string>);
 void badParsing();
 
 #endif

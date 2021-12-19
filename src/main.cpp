@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 18:04:18 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/17 19:53:18 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/19 19:59:37 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,13 @@ int main(int argc, char *argv[])
     }
     if (argc == 2)
         parse(argc, argv[1]);
+
+    Equation eq(argv[1]);
+
+    if (eq.equationInTwoTabs())
+    {
+        eq.takeCoeff();
+    }
 
     bool test[] = {true, true};
     if (test[2])
