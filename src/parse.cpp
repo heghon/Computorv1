@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 19:30:26 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/19 18:51:35 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/23 15:48:26 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,12 +98,16 @@ bool orderCheck(vector<string> tab)
     return true;
 }
 
-void parse(int paramNbr, char param[])
+int parse(int paramNbr, char param[])
 {
     Parser p(param);
 
-    if (p.equationInTwoTabs() && p.parseConstruct() && p.parseOrder() && p.parseCheckX())
+    if (p.equationInTwoTabs() && p.parseConstruct() && p.parseOrder() && p.parseCheckX() >= 0)
+    {
         p.showTheEquation();
+        return p.parseCheckX();
+    }
+    return -1;
 
     // int pwr[]={0, 0, 0}; // power[0] = x^0, power[1] = x^1, power[2] = x^2
     // bool boolPwr[]={false, false, false};

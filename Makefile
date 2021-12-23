@@ -6,7 +6,7 @@
 #    By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:50:28 by bmenant           #+#    #+#              #
-#    Updated: 2021/12/19 18:52:06 by bmenant          ###   ########.fr        #
+#    Updated: 2021/12/23 19:28:08 by bmenant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ SRCS =			$(addprefix $(SRC_FILE),$(SRC))
 OBJS =			$(addprefix $(OBJ_FILE),$(OBJ))
 
 # LFLAGS =		`sdl2-config --libs --cflags`
-FLAGS =			-Wall
+FLAGS =			-Wall -Wextra
 STDFLAGS =		-std=c++11
 # OFLAGS =		-O3
 # IFLAGS =		-I ./inc/

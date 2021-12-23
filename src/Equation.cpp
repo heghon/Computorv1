@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:35:20 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/19 20:16:50 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/23 20:11:05 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,41 +23,72 @@ Equation::Equation(string totalEquation) : m_totalEquation(totalEquation)
 {
 }
 
-void Equation::takeCoeff()
+void Equation::showPolynomialDegree()
 {
-    m_finalCoeff.push_back(0);
-    m_finalCoeff.push_back(0);
-    m_finalCoeff.push_back(0);
+    cout << "Pynomial degree: " <<  << endl;
+}
 
-    for (int i(0); i < m_leftOpe.size(); i++)
+void Equation::showReducedForm()
+{
+    cout << "Reduced form: ";
+    if (m_finalCoeff[0] != 0.0)
+        cout << m_finalCoeff[0] << " ";
+    if (m_finalCoeff[1] != 0.0)
     {
-        if ((m_leftOpe[i + 1] == "+" || m_leftOpe[i + 1] == "-" || m_leftOpe[i - 1] == "+" || m_leftOpe[i - 1] == "-") && strPotentialD(m_leftOpe[i]))
-            m_finalCoeff[0] += (i > 0 && m_leftOpe[i - 1] == "-") ? stod(m_leftOpe[i]) : (stod(m_leftOpe[i]) * -1);
-        else if (m_leftOpe.size() > i + 2 && m_leftOpe[i + 1] == "*" && m_leftOpe[i + 2] == "X" && strPotentialD(m_leftOpe[i]))
-            m_finalCoeff[1] += (i > 0 && m_leftOpe[i - 1] == "-") ? stod(m_leftOpe[i]) : (stod(m_leftOpe[i]) * -1);
-        else if (m_leftOpe.size() > i + 2 && m_leftOpe[i + 1] == "*" && m_leftOpe[i + 2] == "X^2" && strPotentialD(m_leftOpe[i]))
-            m_finalCoeff[2] += (i > 0 && m_leftOpe[i - 1] == "-") ? stod(m_leftOpe[i]) : (stod(m_leftOpe[i]) * -1);
+        if (m_finalCoeff[1] <= 0.0)
+            cout << "- " << (-1 * m_finalCoeff[1]) << " * X ";
+        else
+            cout << "+ " << m_finalCoeff[1] << " * X ";
     }
-    for (int i(0); i < m_rightOpe.size(); i++)
+    if (m_finalCoeff[2] != 0.0)
     {
-        if ((m_rightOpe[i + 1] == "+" || m_rightOpe[i + 1] == "-" || m_rightOpe[i - 1] == "+" || m_rightOpe[i - 1] == "-") && strPotentialD(m_rightOpe[i]))
-            m_finalCoeff[0] -= (i > 0 && m_rightOpe[i - 1] == "-") ? stod(m_rightOpe[i]) : (stod(m_rightOpe[i]) * -1);
-        else if (m_rightOpe.size() > i + 2 && m_rightOpe[i + 1] == "*" && m_rightOpe[i + 2] == "X" && strPotentialD(m_rightOpe[i]))
-            m_finalCoeff[1] -= (i > 0 && m_rightOpe[i - 1] == "-") ? stod(m_rightOpe[i]) : (stod(m_rightOpe[i]) * -1);
-        else if (m_rightOpe.size() > i + 2 && m_rightOpe[i + 1] == "*" && m_rightOpe[i + 2] == "X^2" && strPotentialD(m_rightOpe[i]))
-            m_finalCoeff[2] -= (i > 0 && m_rightOpe[i - 1] == "-") ? stod(m_rightOpe[i]) : (stod(m_rightOpe[i]) * -1);
+        if (m_finalCoeff[2] <= 0.0)
+            cout << "- " << (-1 * m_finalCoeff[2]) << " * X^2 = 0" << endl;
+        else
+            cout << "+ " << m_finalCoeff[2] << " * X^2 = 0" << endl;
     }
-    cout << "end of takeCoeff : Coeffs are " << endl;
-    for (int i(0); i < 3; i++)
+}
+
+void Equation::putCoeff(vector<string> opeTab, int side)
+{
+    for (unsigned long i(0); i < opeTab.size(); i++)
     {
-        cout << "Coeff " + to_string(i) + " = " + to_string(m_finalCoeff[i]) << endl;
+        if ((i == 0 && opeTab.size() == 1 && strPotentialD(opeTab[i])) ||
+            (i == 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && strPotentialD(opeTab[i])) ||
+            (i + 1 == opeTab.size() && i > 0 && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-")) ||
+            (i > 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-")))
+
+            m_finalCoeff[0] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
+
+        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X" && strPotentialD(opeTab[i]))
+
+            m_finalCoeff[1] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
+
+        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^2" && strPotentialD(opeTab[i]))
+
+            m_finalCoeff[2] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
+    }
+}
+
+void Equation::handleCoeff()
+{
+    m_finalCoeff.push_back(0.0);
+    m_finalCoeff.push_back(0.0);
+    m_finalCoeff.push_back(0.0);
+
+    putCoeff(m_leftOpe, 1);
+    putCoeff(m_rightOpe, -1);
+    cout << endl << "End of the Coeff - Coeffs are : " << endl;
+    for (int i(0); i < m_finalCoeff.size(); i++)
+    {
+        cout << "Coeff " << i << " : " << m_finalCoeff[i] << endl;
     }
 }
 
 bool Equation::equationInTwoTabs()
 {
     bool equal = false;
-    int i(0);
+    unsigned long i(0);
     int j(0);
 
     m_leftOpe.push_back("");
@@ -86,29 +117,29 @@ bool Equation::equationInTwoTabs()
         }
         i++;
     }
-    cout << "Equation in 2 tabs - here are the two tabs : " << endl;
-    for (int i(0); i < m_leftOpe.size(); i++)
-    {
-        cout << "Left - element numbr " << i << " : " + m_leftOpe[i] << endl;
-    }
-        for (int i(0); i < m_rightOpe.size(); i++)
-    {
-        cout << "Right - element numbr " << i << " : " + m_rightOpe[i] << endl;
-    }
+    // cout << "Equation in 2 tabs - here are the two tabs : " << endl;
+    // for (int i(0); i < m_leftOpe.size(); i++)
+    // {
+    //     cout << "Left - element numbr " << i << " : " + m_leftOpe[i] << endl;
+    // }
+    //     for (int i(0); i < m_rightOpe.size(); i++)
+    // {
+    //     cout << "Right - element numbr " << i << " : " + m_rightOpe[i] << endl;
+    // }
     return true;
 }
 
 void Equation::showTheEquation()
 {
     cout << endl << "THE TOTAL EQUATION IS : " << endl;
-    for (int i(0); i < m_leftOpe.size(); i++)
+    for (unsigned long i(0); i < m_leftOpe.size(); i++)
     {
         if (i > 0)
             cout << " ";
         cout << m_leftOpe[i];
     }
     cout << " =";
-        for (int i(0); i < m_rightOpe.size(); i++)
+        for (unsigned long i(0); i < m_rightOpe.size(); i++)
     {
         cout << " " + m_rightOpe[i]; 
     }

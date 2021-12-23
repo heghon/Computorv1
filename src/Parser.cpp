@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 18:48:20 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/19 19:44:33 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/23 19:08:05 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,13 @@ bool Parser::parseOrder()
     return true;
 }
 
-bool Parser::parseCheckX()
+int Parser::parseCheckX()
 {
     cout << endl << "In parse check x function - " << endl;
 
     bool check(false);
     int j(1);
+    int deg(0);
 
     for (int i(0); i < m_leftOpe.size(); i++)
     {
@@ -112,12 +113,17 @@ bool Parser::parseCheckX()
             for (j = 1; j <= 10; j++)
             {
                 if (m_leftOpe[i] == (j == 1 ? "X" : "X^" + to_string(j)))
+                {
                     check = true;
+                    deg = j > deg ? j : deg;
+                    break ;
+                }
             }
             if (!check)
-                return false;
+                return -1;
         }
     }
+    j = 1;
     for (int i(0); i < m_rightOpe.size(); i++)
     {
         check = false;
@@ -126,11 +132,48 @@ bool Parser::parseCheckX()
             for (j = 1; j <= 10; j++)
             {
                 if (m_rightOpe[i] == (j == 1 ? "X" : "X^" + to_string(j)))
+                {
                     check = true;
+                    deg = j > deg ? j : deg;
+                    break ;
+                }
             }
             if (!check)
-                return false;
+                return -1;
         }    
+    }
+    return (j == 11 ? j : deg);
+}
+
+bool Parser::constructSide(vector<string> tab)
+{
+    int i(0);
+    while (i < tab.size())
+    {
+        cout << endl << "For "<< i << " : " + tab[i] << endl;
+        if (!strPotentialD(tab[i]) || (strPotentialD(tab[i]) && i + 1 == tab.size()))
+            return false;
+        cout << "first if passed for " + tab[i] << endl;
+
+        if (i + 1 < tab.size())
+            cout << "After first if, i + 1 = " << i + 1 << " et size = " << tab.size() << " et m_leftOpe[i + 1] = " + tab[i + 1] << endl;
+        if (i + 1 < tab.size() && tab[i + 1] != "*" && tab[i + 1] != "+" && tab[i + 1] != "-")
+            return false;
+        cout << "second if passed for " + tab[i] << endl;
+
+        if (i + 1 < tab.size() && tab[i + 1] == "*" && i + 2 < tab.size() && tab[i + 2][0] != 'X')
+            return false;
+        cout << "third if passed for " + tab[i] << endl;
+
+        if (i + 1 < tab.size() && tab[i + 1] == "*" && i + 2 < tab.size() && tab[i + 2][0] == 'X' &&
+            i + 3 < tab.size() && tab[i + 3] != "+" && tab[i + 3] != "-")
+            return false;
+        cout << "last if passed for " + tab[i] << endl;
+
+        if (tab[tab.size() - 1] == "-" || tab[tab.size() - 1] == "+" || tab[tab.size() - 1] == "*")
+            return false;
+        
+        i += (i + 1 < tab.size() && tab[i + 1] == "*") ? 4 : 2;
     }
     return true;
 }
@@ -138,55 +181,56 @@ bool Parser::parseCheckX()
 bool Parser::parseConstruct()
 {
     cout << "parse construct function -" << endl;
-    int i(0);
-    while (i < m_leftOpe.size())
-    {
-        cout << endl << "For "<< i << " : " + m_leftOpe[i] << endl;
-        if (!strPotentialD(m_leftOpe[i]))
-            return false;
-        cout << "first if passed for " + m_leftOpe[i] << endl;
+    return (constructSide(m_leftOpe) && constructSide(m_rightOpe));
+    // int i(0);
+    // while (i < m_leftOpe.size())
+    // {
+    //     cout << endl << "For "<< i << " : " + m_leftOpe[i] << endl;
+    //     if (!strPotentialD(m_leftOpe[i]))
+    //         return false;
+    //     cout << "first if passed for " + m_leftOpe[i] << endl;
 
-        if (i + 1 < m_leftOpe.size())
-            cout << "After first if, i + 1 = " << i + 1 << " et size = " << m_leftOpe.size() << " et m_leftOpe[i + 1] = " + m_leftOpe[i + 1] << endl;
-        if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] != "*" && m_leftOpe[i + 1] != "+" && m_leftOpe[i + 1] != "-")
-            return false;
-        cout << "second if passed for " + m_leftOpe[i] << endl;
+    //     if (i + 1 < m_leftOpe.size())
+    //         cout << "After first if, i + 1 = " << i + 1 << " et size = " << m_leftOpe.size() << " et m_leftOpe[i + 1] = " + m_leftOpe[i + 1] << endl;
+    //     if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] != "*" && m_leftOpe[i + 1] != "+" && m_leftOpe[i + 1] != "-")
+    //         return false;
+    //     cout << "second if passed for " + m_leftOpe[i] << endl;
 
-        if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*" && i + 2 < m_leftOpe.size() && m_leftOpe[i + 2][0] != 'X')
-            return false;
-        cout << "third if passed for " + m_leftOpe[i] << endl;
+    //     if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*" && i + 2 < m_leftOpe.size() && m_leftOpe[i + 2][0] != 'X')
+    //         return false;
+    //     cout << "third if passed for " + m_leftOpe[i] << endl;
 
-        if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*" && i + 2 < m_leftOpe.size() && m_leftOpe[i + 2][0] == 'X' &&
-            i + 3 < m_leftOpe.size() && m_leftOpe[i + 3] != "+" && m_leftOpe[i + 3] != "-")
-            return false;
-        cout << "last if passed for " + m_leftOpe[i] << endl;
+    //     if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*" && i + 2 < m_leftOpe.size() && m_leftOpe[i + 2][0] == 'X' &&
+    //         i + 3 < m_leftOpe.size() && m_leftOpe[i + 3] != "+" && m_leftOpe[i + 3] != "-")
+    //         return false;
+    //     cout << "last if passed for " + m_leftOpe[i] << endl;
         
-        i += (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*") ? 4 : 2;
-    }
-    i = 0;
-    while (i < m_rightOpe.size())
-    {
-        cout << endl << "For "<< i << " : " + m_rightOpe[i] << endl;
-        if (!strPotentialD(m_rightOpe[i]))
-            return false;
-        cout << "first if passed for " + m_rightOpe[i] << endl;
+    //     i += (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*") ? 4 : 2;
+    // }
+    // i = 0;
+    // while (i < m_rightOpe.size())
+    // {
+    //     cout << endl << "For "<< i << " : " + m_rightOpe[i] << endl;
+    //     if (!strPotentialD(m_rightOpe[i]))
+    //         return false;
+    //     cout << "first if passed for " + m_rightOpe[i] << endl;
 
-        if (i + 1 < m_rightOpe.size())
-            cout << "After first if, i + 1 = " << i + 1 << " et size = " << m_rightOpe.size() << " et m_rightOpe[i + 1] = " + m_rightOpe[i + 1] << endl;
-        if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] != "*" && m_rightOpe[i + 1] != "+" && m_rightOpe[i + 1] != "-")
-            return false;
-        cout << "second if passed for " + m_rightOpe[i] << endl;
+    //     if (i + 1 < m_rightOpe.size())
+    //         cout << "After first if, i + 1 = " << i + 1 << " et size = " << m_rightOpe.size() << " et m_rightOpe[i + 1] = " + m_rightOpe[i + 1] << endl;
+    //     if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] != "*" && m_rightOpe[i + 1] != "+" && m_rightOpe[i + 1] != "-")
+    //         return false;
+    //     cout << "second if passed for " + m_rightOpe[i] << endl;
 
-        if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*" && i + 2 < m_rightOpe.size() && m_rightOpe[i + 2][0] != 'X')
-            return false;
-        cout << "third if passed for " + m_rightOpe[i] << endl;
+    //     if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*" && i + 2 < m_rightOpe.size() && m_rightOpe[i + 2][0] != 'X')
+    //         return false;
+    //     cout << "third if passed for " + m_rightOpe[i] << endl;
 
-        if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*" && i + 2 < m_rightOpe.size() && m_rightOpe[i + 2][0] == 'X' &&
-            i + 3 < m_rightOpe.size() && m_rightOpe[i + 3] != "+" && m_rightOpe[i + 3] != "-")
-            return false;
-        cout << "last if passed for " + m_rightOpe[i] << endl;
+    //     if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*" && i + 2 < m_rightOpe.size() && m_rightOpe[i + 2][0] == 'X' &&
+    //         i + 3 < m_rightOpe.size() && m_rightOpe[i + 3] != "+" && m_rightOpe[i + 3] != "-")
+    //         return false;
+    //     cout << "last if passed for " + m_rightOpe[i] << endl;
         
-        i += (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*") ? 4 : 2;
-    }
-    return true;
+    //     i += (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*") ? 4 : 2;
+    // }
+    // return true;
 }

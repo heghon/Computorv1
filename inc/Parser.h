@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 18:44:48 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/19 18:47:33 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/23 18:57:07 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ class Parser
     void showTheEquation();
     bool parseConstruct();
     bool parseOrder();
-    bool parseCheckX();
+    int parseCheckX();
+    bool constructSide(std::vector<std::string> tab);
 
     private:
 
