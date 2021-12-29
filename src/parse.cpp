@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 19:30:26 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/23 15:48:26 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/29 15:47:22 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,62 +39,6 @@ bool strPotentialD(string str)
             return false;
     }
         cout << "strPotentialD : true returned for " << str << endl;
-    return true;
-}
-
-bool orderCheck(vector<string> tab)
-{
-    cout << "in order check function - " << endl;
-    int i(2);
-    int j(1);
-
-    for (int a(0); a < tab.size(); a++)
-    {
-        cout << "tab en cours : tab[" << a << "] = " << tab[a] << endl;
-    }
-    if (tab.size() >= 2 && (tab[1] == "+" || tab[1] == "-"))
-    {
-        while (i < tab.size())
-        {
-            if (tab.size() >= i + 1 && !strPotentialD(tab[i]))
-                return false;
-            cout << "first if passed" << endl;
-            if (tab.size() >= i + 2 && tab[i + 1] != "*")
-                return false;
-            cout << "second if passed" << endl;
-            if (tab.size() >= i + 3 && tab[i + 2][0] != 'X')
-                return false;
-            cout << "third if passed" << endl;
-            if (tab.size() >= i + 4 && !(tab[i + 3] == "+" || tab[i + 3] == "-"))
-                return false;
-            cout << "last if passed" << endl;
-            i += 4;
-            j++;
-        }
-    }
-
-    else
-    {
-        i = 0;
-        while (i < tab.size())
-        {
-            if (tab.size() >= i + 1 && !strPotentialD(tab[i]))
-                return false;
-            cout << "first sif passed" << endl;
-            if (tab.size() >= i + 2 && tab[i + 1] != "*")
-                return false;
-            cout << "second sif passed" << endl;
-            if (tab.size() >= i + 3 && tab[i + 2][0] != 'X')
-                return false;
-            cout << "third sif passed" << endl;
-            if (tab.size() >= i + 4 && !(tab[i + 3] == "+" || tab[i + 3] == "-"))
-                return false;
-            cout << "last sif passed" << endl;
-            i += 4;
-            j++;
-        }
-    }
-
     return true;
 }
 

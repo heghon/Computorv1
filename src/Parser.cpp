@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 18:48:20 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/23 19:08:05 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/29 16:46:37 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ bool Parser::equationInTwoTabs()
     {
         cout << "Right - element numbr " << i << " : " + m_rightOpe[i] << endl;
     }
+    cout << endl;
     return true;
 }
 
@@ -82,6 +83,42 @@ void Parser::showTheEquation()
         cout << " " + m_rightOpe[i]; 
     }
     cout << endl << endl;
+}
+
+bool Parser::orderCheckHandler(vector<string> tab, int i)
+{
+    while (i < tab.size())
+    {
+        if (tab.size() >= i + 1 && !strPotentialD(tab[i]))
+            return false;
+        cout << "first if passed" << endl;
+        if (tab.size() >= i + 2 && tab[i + 1] != "*")
+            return false;
+        cout << "second if passed" << endl;
+        if (tab.size() >= i + 3 && tab[i + 2][0] != 'X')
+            return false;
+        cout << "third if passed" << endl;
+        if (tab.size() >= i + 4 && !(tab[i + 3] == "+" || tab[i + 3] == "-"))
+            return false;
+        cout << "last if passed" << endl;
+        i += 4;
+    }
+    return true;
+}
+
+bool Parser::orderCheck(vector<string> tab)
+{
+    cout << "in order check function - " << endl;
+    bool ret(false);
+
+    for (int a(0); a < tab.size(); a++)
+    {
+        cout << "tab en cours : tab[" << a << "] = " << tab[a] << endl;
+    }
+    
+    ret = (tab.size() >= 2 && (tab[1] == "+" || tab[1] == "-")) ? orderCheckHandler(tab, 2) : orderCheckHandler(tab, 0);
+
+    return ret;
 }
 
 bool Parser::parseOrder()
@@ -110,39 +147,34 @@ int Parser::parseCheckX()
         check = false;
         if (m_leftOpe[i][0] == 'X')
         {
-            for (j = 1; j <= 10; j++)
+            if (m_leftOpe[i] == (j == 1 ? "X" : "X^" + to_string(j)))
             {
-                if (m_leftOpe[i] == (j == 1 ? "X" : "X^" + to_string(j)))
-                {
-                    check = true;
-                    deg = j > deg ? j : deg;
-                    break ;
-                }
+                check = true;
+                deg = j > deg ? j : deg;
             }
             if (!check)
                 return -1;
+            j++;
         }
     }
+    cout << "first tab done" << endl;
     j = 1;
     for (int i(0); i < m_rightOpe.size(); i++)
     {
         check = false;
         if (m_rightOpe[i][0] == 'X')
         {
-            for (j = 1; j <= 10; j++)
+            if (m_rightOpe[i] == (j == 1 ? "X" : "X^" + to_string(j)))
             {
-                if (m_rightOpe[i] == (j == 1 ? "X" : "X^" + to_string(j)))
-                {
-                    check = true;
-                    deg = j > deg ? j : deg;
-                    break ;
-                }
+                check = true;
+                deg = j > deg ? j : deg;
             }
             if (!check)
                 return -1;
-        }    
+            j++;
+        }
     }
-    return (j == 11 ? j : deg);
+    return (deg);
 }
 
 bool Parser::constructSide(vector<string> tab)
@@ -182,55 +214,4 @@ bool Parser::parseConstruct()
 {
     cout << "parse construct function -" << endl;
     return (constructSide(m_leftOpe) && constructSide(m_rightOpe));
-    // int i(0);
-    // while (i < m_leftOpe.size())
-    // {
-    //     cout << endl << "For "<< i << " : " + m_leftOpe[i] << endl;
-    //     if (!strPotentialD(m_leftOpe[i]))
-    //         return false;
-    //     cout << "first if passed for " + m_leftOpe[i] << endl;
-
-    //     if (i + 1 < m_leftOpe.size())
-    //         cout << "After first if, i + 1 = " << i + 1 << " et size = " << m_leftOpe.size() << " et m_leftOpe[i + 1] = " + m_leftOpe[i + 1] << endl;
-    //     if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] != "*" && m_leftOpe[i + 1] != "+" && m_leftOpe[i + 1] != "-")
-    //         return false;
-    //     cout << "second if passed for " + m_leftOpe[i] << endl;
-
-    //     if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*" && i + 2 < m_leftOpe.size() && m_leftOpe[i + 2][0] != 'X')
-    //         return false;
-    //     cout << "third if passed for " + m_leftOpe[i] << endl;
-
-    //     if (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*" && i + 2 < m_leftOpe.size() && m_leftOpe[i + 2][0] == 'X' &&
-    //         i + 3 < m_leftOpe.size() && m_leftOpe[i + 3] != "+" && m_leftOpe[i + 3] != "-")
-    //         return false;
-    //     cout << "last if passed for " + m_leftOpe[i] << endl;
-        
-    //     i += (i + 1 < m_leftOpe.size() && m_leftOpe[i + 1] == "*") ? 4 : 2;
-    // }
-    // i = 0;
-    // while (i < m_rightOpe.size())
-    // {
-    //     cout << endl << "For "<< i << " : " + m_rightOpe[i] << endl;
-    //     if (!strPotentialD(m_rightOpe[i]))
-    //         return false;
-    //     cout << "first if passed for " + m_rightOpe[i] << endl;
-
-    //     if (i + 1 < m_rightOpe.size())
-    //         cout << "After first if, i + 1 = " << i + 1 << " et size = " << m_rightOpe.size() << " et m_rightOpe[i + 1] = " + m_rightOpe[i + 1] << endl;
-    //     if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] != "*" && m_rightOpe[i + 1] != "+" && m_rightOpe[i + 1] != "-")
-    //         return false;
-    //     cout << "second if passed for " + m_rightOpe[i] << endl;
-
-    //     if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*" && i + 2 < m_rightOpe.size() && m_rightOpe[i + 2][0] != 'X')
-    //         return false;
-    //     cout << "third if passed for " + m_rightOpe[i] << endl;
-
-    //     if (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*" && i + 2 < m_rightOpe.size() && m_rightOpe[i + 2][0] == 'X' &&
-    //         i + 3 < m_rightOpe.size() && m_rightOpe[i + 3] != "+" && m_rightOpe[i + 3] != "-")
-    //         return false;
-    //     cout << "last if passed for " + m_rightOpe[i] << endl;
-        
-    //     i += (i + 1 < m_rightOpe.size() && m_rightOpe[i + 1] == "*") ? 4 : 2;
-    // }
-    // return true;
 }

@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:35:20 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/23 20:11:05 by bmenant          ###   ########.fr       */
+/*   Updated: 2021/12/29 16:55:12 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,45 @@ Equation::Equation(string totalEquation) : m_totalEquation(totalEquation)
 
 void Equation::showPolynomialDegree()
 {
-    cout << "Pynomial degree: " <<  << endl;
+    if (m_finalCoeff[3] != 0.0)
+        cout << "Polynomial degree: 3" << endl;
+    else if (m_finalCoeff[2] != 0.0)
+        cout << "Polynomial degree: 2" << endl;
+    else if (m_finalCoeff[1] != 0.0)
+        cout << "Polynomial degree: 1" << endl;
+    else if (m_finalCoeff[0] != 0.0)
+        cout << "Polynomial degree: 0" << endl;
+    else
+        cout << "Polynomial degree: 0" << endl;
 }
 
 void Equation::showReducedForm()
 {
     cout << "Reduced form: ";
     if (m_finalCoeff[0] != 0.0)
-        cout << m_finalCoeff[0] << " ";
+        cout << m_finalCoeff[0];
     if (m_finalCoeff[1] != 0.0)
     {
         if (m_finalCoeff[1] <= 0.0)
-            cout << "- " << (-1 * m_finalCoeff[1]) << " * X ";
+            cout << " - " << (-1 * m_finalCoeff[1]) << " * X";
         else
-            cout << "+ " << m_finalCoeff[1] << " * X ";
+            cout << " + " << m_finalCoeff[1] << " * X";
     }
     if (m_finalCoeff[2] != 0.0)
     {
         if (m_finalCoeff[2] <= 0.0)
-            cout << "- " << (-1 * m_finalCoeff[2]) << " * X^2 = 0" << endl;
+            cout << " - " << (-1 * m_finalCoeff[2]) << " * X^2";
         else
-            cout << "+ " << m_finalCoeff[2] << " * X^2 = 0" << endl;
+            cout << " + " << m_finalCoeff[2] << " * X^2";
     }
+    if (m_finalCoeff[3] != 0.0)
+    {
+        if (m_finalCoeff[3] <= 0.0)
+            cout << " - " << (-1 * m_finalCoeff[3]) << " * X^3";
+        else
+            cout << " + " << m_finalCoeff[3] << " * X^3";
+    }
+    cout << " = 0" << endl;
 }
 
 void Equation::putCoeff(vector<string> opeTab, int side)
@@ -54,9 +71,7 @@ void Equation::putCoeff(vector<string> opeTab, int side)
     for (unsigned long i(0); i < opeTab.size(); i++)
     {
         if ((i == 0 && opeTab.size() == 1 && strPotentialD(opeTab[i])) ||
-            (i == 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && strPotentialD(opeTab[i])) ||
-            (i + 1 == opeTab.size() && i > 0 && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-")) ||
-            (i > 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-")))
+            (i == 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && strPotentialD(opeTab[i])))
 
             m_finalCoeff[0] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
 
@@ -67,11 +82,16 @@ void Equation::putCoeff(vector<string> opeTab, int side)
         else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^2" && strPotentialD(opeTab[i]))
 
             m_finalCoeff[2] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
+
+        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^3" && strPotentialD(opeTab[i]))
+
+            m_finalCoeff[3] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
     }
 }
 
 void Equation::handleCoeff()
 {
+    m_finalCoeff.push_back(0.0);
     m_finalCoeff.push_back(0.0);
     m_finalCoeff.push_back(0.0);
     m_finalCoeff.push_back(0.0);
