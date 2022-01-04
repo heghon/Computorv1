@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 18:44:48 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/29 16:03:51 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/04 14:32:51 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ class Parser
     public:
 
     Parser(std::string totalEquation);
+    std::vector<std::string> getLeftOpe();
+    std::vector<std::string> getRightOpe();
     bool equationInTwoTabs();
     void showTheEquation();
     bool parseConstruct();

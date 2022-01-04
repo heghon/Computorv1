@@ -6,19 +6,19 @@
 #    By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:50:28 by bmenant           #+#    #+#              #
-#    Updated: 2021/12/23 19:28:08 by bmenant          ###   ########.fr        #
+#    Updated: 2022/01/04 18:50:03 by bmenant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 SRC =			main.cpp \
-				parse.cpp \
 				Equation.cpp \
-				Parser.cpp
+				Parser.cpp \
+				Solver.cpp
 
 GREEN =			\033[0;32m
 BLUE =			\033[1;34m
 YELLOW =		\033[1;33m
-WHITE =			\033[1;37m
+WHITE =			\033[0;37m
 OK =			$(GREEN)-OK-$(WHITE)
 
 CXX =			clang++
@@ -32,13 +32,8 @@ OBJ =			$(SRC:.cpp=.o)
 SRCS =			$(addprefix $(SRC_FILE),$(SRC))
 OBJS =			$(addprefix $(OBJ_FILE),$(OBJ))
 
-# LFLAGS =		`sdl2-config --libs --cflags`
-FLAGS =			-Wall -Wextra
+FLAGS =			-Wall -Wextra -Werror
 STDFLAGS =		-std=c++11
-# OFLAGS =		-O3
-# IFLAGS =		-I ./inc/
-# CFLAGS =		-g3 -fsanitize=address
-# LIBFLAGS =		-lm -pthread
 
 RM =			/bin/rm -f
 
@@ -65,3 +60,6 @@ fclean : clean
 	@echo "$(BLUE)-fclean-\r				$(OK)"
 
 re	: fclean all
+
+test : re
+	./$(NAME) "2 + 5 * X + 3 * X^2 = 0"

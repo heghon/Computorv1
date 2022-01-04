@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:35:33 by bmenant           #+#    #+#             */
-/*   Updated: 2021/12/23 20:08:23 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/04 14:53:27 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,13 @@ class Equation
 {
     public:
 
-    Equation(std::string totalEquation);
-    bool equationInTwoTabs();
+    Equation(std::string totalEquation, std::vector<std::string> leftOpe, std::vector<std::string> rightOpe);
     void showTheEquation();
+    std::vector<double> getFinalCoeff();
     void handleCoeff();
     void putCoeff(std::vector<std::string> opeTab, int side);
     void showReducedForm();
     void showPolynomialDegree();
-
-
 
     private:
 
