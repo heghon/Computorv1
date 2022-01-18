@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Equation.cpp                                       :+:      :+:    :+:   */
+/*   EquationSimplified.cpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/17 17:35:20 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/18 16:29:16 by bmenant          ###   ########.fr       */
+/*   Created: 2022/01/18 16:15:40 by bmenant           #+#    #+#             */
+/*   Updated: 2022/01/18 16:46:25 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/Equation.h"
 #include "../inc/Parser.h"
 #include "../inc/computor.h"
+#include "../inc/Parsersimplified.h"
+#include "../inc/Equationsimplified.h"
 #include <iostream>
 #include <string>
 #include <vector>
 
 using namespace std;
 
-Equation::Equation(string totalEquation, vector<string> leftOpe, vector<string> rightOpe) : m_leftOpe(leftOpe), m_rightOpe(rightOpe), m_totalEquation(totalEquation)
+Equationsimplified::Equationsimplified(string totalEquation, vector<string> leftOpe, vector<string> rightOpe) : m_leftOpe(leftOpe), m_rightOpe(rightOpe), m_totalEquation(totalEquation)
 {
 }
 
-vector<double> Equation::getFinalCoeff()
+vector<double> Equationsimplified::getFinalCoeff()
 {
     return m_finalCoeff;
 }
 
-void Equation::showPolynomialDegree()
+void Equationsimplified::showPolynomialDegree()
 {
     if (m_finalCoeff[3] != 0.0)
         cout << "Polynomial degree: 3" << endl;
@@ -42,7 +44,7 @@ void Equation::showPolynomialDegree()
         cout << "Polynomial degree: 0" << endl;
 }
 
-void Equation::showReducedForm()
+void Equationsimplified::showReducedForm()
 {
     cout << "Reduced form: ";
     if (m_finalCoeff[0] != 0.0)
@@ -85,7 +87,7 @@ void Equation::showReducedForm()
     cout << " = 0" << endl;
 }
 
-void Equation::putCoeff(vector<string> opeTab, int side)
+void Equationsimplified::putCoeff(vector<string> opeTab, int side)
 {
     for (unsigned long i(0); i < opeTab.size(); i++)
     {
@@ -110,7 +112,7 @@ void Equation::putCoeff(vector<string> opeTab, int side)
     }
 }
 
-void Equation::handleCoeff()
+void Equationsimplified::handleCoeff()
 {
     m_finalCoeff.push_back(0.0);
     m_finalCoeff.push_back(0.0);
@@ -126,7 +128,7 @@ void Equation::handleCoeff()
     // }
 }
 
-void Equation::showTheEquation()
+void Equationsimplified::showTheEquation()
 {
     cout << endl << "THE TOTAL EQUATION IS : " << endl;
     for (unsigned long i(0); i < m_leftOpe.size(); i++)

@@ -1,36 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Parser.h                                           :+:      :+:    :+:   */
+/*   ParserSimplified.h                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/19 18:44:48 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/18 16:07:11 by bmenant          ###   ########.fr       */
+/*   Created: 2022/01/18 16:12:54 by bmenant           #+#    #+#             */
+/*   Updated: 2022/01/18 16:39:52 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEF_PARSER
-#define DEF_PARSER
+#ifndef DEF_PARSERSIMPLIFIED
+#define DEF_PARSERSIMPLIFIED
 
 #include <string>
 #include <vector>
 
-class Parser
+class Parsersimplified
 {
     public:
 
-    Parser(std::string totalEquation);
+    Parsersimplified(std::string totalEquation);
     std::vector<std::string> getLeftOpe();
     std::vector<std::string> getRightOpe();
     bool equationInTwoTabs();
     void showTheEquation();
-    bool parseConstruct();
-    bool parseOrder();
     int parseCheckX();
     int checkHandlerX(std::vector<std::string> tab);
-    bool orderCheck(std::vector<std::string> tab);
-    bool constructSide(std::vector<std::string> tab);
 
     private:
 

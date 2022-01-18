@@ -1,41 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Parser.h                                           :+:      :+:    :+:   */
+/*   EquationSimplified.h                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/19 18:44:48 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/18 16:07:11 by bmenant          ###   ########.fr       */
+/*   Created: 2022/01/18 16:14:31 by bmenant           #+#    #+#             */
+/*   Updated: 2022/01/18 16:40:02 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEF_PARSER
-#define DEF_PARSER
+#ifndef DEF_EQUATIONSIMPLIFIED
+#define DEF_EQUATIONSIMPLIFIED
 
 #include <string>
 #include <vector>
 
-class Parser
+class Equationsimplified
 {
     public:
 
-    Parser(std::string totalEquation);
-    std::vector<std::string> getLeftOpe();
-    std::vector<std::string> getRightOpe();
-    bool equationInTwoTabs();
+    Equationsimplified(std::string totalEquation, std::vector<std::string> leftOpe, std::vector<std::string> rightOpe);
     void showTheEquation();
-    bool parseConstruct();
-    bool parseOrder();
-    int parseCheckX();
-    int checkHandlerX(std::vector<std::string> tab);
-    bool orderCheck(std::vector<std::string> tab);
-    bool constructSide(std::vector<std::string> tab);
+    std::vector<double> getFinalCoeff();
+    void handleCoeff();
+    void putCoeff(std::vector<std::string> opeTab, int side);
+    void showReducedForm();
+    void showPolynomialDegree();
 
     private:
 
     std::vector<std::string> m_leftOpe;
     std::vector<std::string> m_rightOpe;
+    std::vector<double> m_temp;
+    std::vector<double> m_finalCoeff;
     std::string m_totalEquation;
 };
 
