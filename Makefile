@@ -6,7 +6,7 @@
 #    By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/12 17:50:28 by bmenant           #+#    #+#              #
-#    Updated: 2022/01/04 18:50:03 by bmenant          ###   ########.fr        #
+#    Updated: 2022/01/07 15:57:32 by bmenant          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ STDFLAGS =		-std=c++11
 
 RM =			/bin/rm -f
 
-.PHONY:			all clean fclean re
+.PHONY:			all clean fclean re test
 
 
 all : $(NAME)
@@ -61,5 +61,24 @@ fclean : clean
 
 re	: fclean all
 
-test : re
+test : all
+	./$(NAME)
+	./$(NAME) "df" "sfdsf"
+	./$(NAME) "" 
+	./$(NAME) " "
+	./$(NAME) "2 = "
+	./$(NAME) "2= 0"
+	./$(NAME) " = 0"
+	./$(NAME) "-2 = 0"
+	./$(NAME) "0 = 2"
+	./$(NAME) "2 = 0"
+	./$(NAME) "2 = 5 * X"
+	./$(NAME) "2 + 5 * X = 5 * X"
 	./$(NAME) "2 + 5 * X + 3 * X^2 = 0"
+	./$(NAME) "0 = 2 - 6 * X + 3 * X^2"
+	./$(NAME) "2 * X^3 + 5 * X + 3 * X^2 = 0"
+	./$(NAME) "2 * X^3 + 5 * X + 3 * X^4 = 0"
+	./$(NAME) "2 * X + 1 + 1 * X^2 = 0"
+	./$(NAME) "2 * X^2 + 5 * X + 3 * X^2 - 4 + 7 = 0"
+	./$(NAME) "2 * X^2 + 5 * X + 3 * X^2 - 4 + 7 = 3 - 6 + 15"
+	./$(NAME) "2 * X^2 + 5 * X + 3 * X^2 - 4 + 7 = 3 - 6 + 15 "

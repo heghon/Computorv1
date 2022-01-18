@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/17 17:35:20 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/04 18:42:50 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/07 15:36:45 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void Equation::putCoeff(vector<string> opeTab, int side)
     for (unsigned long i(0); i < opeTab.size(); i++)
     {
         if ((i == 0 && opeTab.size() == 1 && strPotentialD(opeTab[i])) ||
+            (i > 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-") && strPotentialD(opeTab[i])) ||
+            (i > 0 && i + 1 == opeTab.size() && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-") && strPotentialD(opeTab[i])) ||
             (i == 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && strPotentialD(opeTab[i])))
 
             m_finalCoeff[0] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;

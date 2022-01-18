@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 18:44:48 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/04 14:32:51 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/07 14:56:42 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ class Parser
     bool parseConstruct();
     bool parseOrder();
     int parseCheckX();
+    int checkHandlerX(std::vector<std::string> tab);
     bool orderCheck(std::vector<std::string> tab);
-    bool orderCheckHandler(std::vector<std::string> tab, int i);
+    bool orderCheckHandler(std::vector<std::string> tab);
     bool constructSide(std::vector<std::string> tab);
 
     private:

@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 14:40:29 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/04 18:45:08 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/07 15:25:16 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,9 +120,9 @@ void Solver::solveTwoDegree()
     delta = m_coeff[1] * m_coeff[1] - (4 * m_coeff[2] * m_coeff[0]);
     
     if (delta != 0)
-        cout << "Discriminant isn't null, delta = " << delta << endl;
+        cout << "Discriminant isn't null, delta = " << delta << "." << endl;
     else
-        cout << "Discriminant is null, delta = 0" << endl;
+        cout << "Discriminant is null, delta = 0." << endl;
 
     if (delta > 0)
         solveCaseUp(delta);
