@@ -6,7 +6,7 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/19 18:48:20 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/18 17:28:43 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/20 23:52:05 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ bool Parser::equationInTwoTabs()
     }
     if ((int)m_leftOpe.size() == 1 && m_leftOpe[0] == "")
         m_leftOpe.pop_back();
-    cout << "Equation in 2 tabs - here are the two tabs : " << endl;
+    /*cout << "Equation in 2 tabs - here are the two tabs : " << endl;
     for (int i(0); (unsigned long)i < m_leftOpe.size(); i++)
     {
         cout << "Left - element numbr " << i << " : " + m_leftOpe[i] << endl;
@@ -76,7 +76,7 @@ bool Parser::equationInTwoTabs()
     {
         cout << "Right - element numbr " << i << " : " + m_rightOpe[i] << endl;
     }
-    cout << endl;
+    cout << endl;*/
     return true;
 }
 
@@ -101,51 +101,54 @@ bool Parser::orderCheck(vector<string> tab)
 {
     int i(0);
     
-    cout << "in order check - tab size = " << tab.size() << endl;
+    //cout << "in order check - tab size = " << tab.size() << endl;
     while (i < (int)tab.size())
     {
-        cout << "i = " << i << endl;
-        if ((int)tab.size() >= i + 1 && (i == 0 ? !strPotentialD(tab[i], true) : !strPotentialD(tab[i], false)) &&
+        //cout << "i = " << i << endl;
+        if ((int)tab.size() >= i + 1 && (i == 0 ? strPotentialD(tab[i], true) : strPotentialD(tab[i], false)) &&
                 (int)tab.size() >= i + 2 && tab[i + 1] == "*" && 
                 (int)tab.size() >= i + 3 && tab[i + 2][0] == 'X' &&
                 (int)tab.size() >= i + 4 && (tab[i + 3] == "+" || tab[i + 3] == "-") && 
                 (int)tab.size() >= i + 5 && strPotentialD(tab[i + 4], false))
         {
-            cout << "first if passed" << endl;
+            //cout << "first if passed" << endl;
             i += 4;
         }
 
-        else if ((int)tab.size() >= i + 1 && (i == 0 ? !strPotentialD(tab[i], true) : !strPotentialD(tab[i], false)) &&
+        else if ((int)tab.size() >= i + 1 && (i == 0 ? strPotentialD(tab[i], true) : strPotentialD(tab[i], false)) &&
             (int)tab.size() >= i + 2 && (tab[i + 1] == "+" || tab[i + 1] == "-") &&
             (int)tab.size() >= i + 3 && strPotentialD(tab[i + 2], false))
         {
-            cout << "second if passed" << endl;
+            //cout << "second if passed" << endl;
             i += 2;
         }
         
-        else if ((int)tab.size() >= i + 1 && (i == 0 ? !strPotentialD(tab[i], true) : !strPotentialD(tab[i], false)) &&
-                (int)tab.size() >= i + 2 && tab[i + 1] == "*" && 
+        else if ((int)tab.size() >= i + 1 && (i == 0 ? strPotentialD(tab[i], true) : strPotentialD(tab[i], false)) &&
+                (int)tab.size() >= i + 2 && tab[i + 1][0] == '*' && 
                 (int)tab.size() == i + 3 && tab[i + 2][0] == 'X')
         {
-            cout << "third if passed" << endl;
+            //cout << "third if passed" << endl;
             return true;
         }
 
-        else if ((int)tab.size() == i + 1 && (i == 0 ? !strPotentialD(tab[i], true) : !strPotentialD(tab[i], false)))
+        else if ((int)tab.size() == i + 1 && (i == 0 ? strPotentialD(tab[i], true) : strPotentialD(tab[i], false)))
         {
-            cout << "fourth if passed" << endl;
+            //cout << "fourth if passed" << endl;
             return true;
         }
         else
-
+        {
+            //cout << "Not a good parse order..." << endl;
             return false;
+        }
+
     }
     return false;
 }
 
 bool Parser::parseOrder()
 {
-    cout << endl << "in parse order function -" << endl;
+    //cout << endl << "in parse order function -" << endl;
 
     if ((int)m_leftOpe.size() == 0 || (int)m_rightOpe.size() == 0)
         return false;
@@ -162,24 +165,41 @@ bool Parser::parseOrder()
 int Parser::checkHandlerX(vector<string> tab)
 {
     bool check(false);
-    int j(1);
     int deg(0);
 
+    //cout << "In checkHandlerX" << endl;
     for (int i(0); i < (int)tab.size(); i++)
     {
         check = false;
         if (tab[i][0] == 'X')
         {
-            for (j = 1; j < 10; j++)
-            {
-                if (tab[i] == (j == 1 ? "X" : "X^" + to_string(j)))
-                {
-                    check = true;
-                    deg = j > deg ? j : deg;
-                }
-            }
-            if (!check)
+            //cout << "In the if, tab[i] = " << tab[i] << endl;
+            if (tab[i].size() > 1 && tab[i][1] != '^')
                 return -1;
+            string pwr = "";
+            for (int k = 2; k < (int)tab[i].size(); k++)
+            {
+                pwr.push_back(tab[i][k]);
+            }
+            //cout << "After push back, pwr = " << pwr << ", and is pwr potentially int ? " << strPotentialPositiveI(pwr) << endl;
+            //if (pwr == "")
+                //cout << "So, pwr == \"\"" << endl;
+            if (pwr == "")
+            {
+                check = true;
+                deg = deg > 1 ? deg : 1;
+            }
+            else if (strPotentialPositiveI(pwr))
+            {
+                check = true;
+                deg = deg > stoi(pwr) ? deg : stoi(pwr);
+            }
+
+            if (!check)
+            {
+                //cout << "!check" << endl;
+                return -1;
+            }
         }
     }
     return deg;
@@ -187,7 +207,7 @@ int Parser::checkHandlerX(vector<string> tab)
 
 int Parser::parseCheckX()
 {
-    cout << endl << "In parse check x function - " << endl;
+    //cout << endl << "In parse check x function - " << endl;
 
     int degL(0);
     int degR(0);
@@ -197,6 +217,8 @@ int Parser::parseCheckX()
     degR = checkHandlerX(m_rightOpe);
     // cout << endl << "After degR = " << degR  << endl;
 
+    if (degL == -1 || degR == -1)
+        return -1;
     return (degL > degR ? degL : degR);
 }
 
@@ -205,25 +227,25 @@ bool Parser::constructSide(vector<string> tab)
     int i(0);
     while (i < (int)tab.size())
     {
-        cout << endl << "For "<< i << " : " + tab[i] << endl;
+        //cout << endl << "For "<< i << " : " + tab[i] << endl;
         if (i == 0 ? !strPotentialD(tab[i], true) : !strPotentialD(tab[i], false) /*|| (strPotentialD(tab[i]) && i + 1 == tab.size())*/)
             return false;
-        cout << "first if passed for " + tab[i] << endl;
+        //cout << "first if passed for " + tab[i] << endl;
 
-        if (i + 1 < (int)tab.size())
-            cout << "After first if, i + 1 = " << i + 1 << " et size = " << tab.size() << " et m_leftOpe[i + 1] = " + tab[i + 1] << endl;
+        //if (i + 1 < (int)tab.size())
+        //    cout << "After first if, i + 1 = " << i + 1 << " et size = " << tab.size() << " et m_leftOpe[i + 1] = " + tab[i + 1] << endl;
         if (i + 1 < (int)tab.size() && tab[i + 1] != "*" && tab[i + 1] != "+" && tab[i + 1] != "-")
             return false;
-        cout << "second if passed for " + tab[i] << endl;
+        //cout << "second if passed for " + tab[i] << endl;
 
         if (i + 1 < (int)tab.size() && tab[i + 1] == "*" && i + 2 < (int)tab.size() && tab[i + 2][0] != 'X')
             return false;
-        cout << "third if passed for " + tab[i] << endl;
+        //cout << "third if passed for " + tab[i] << endl;
 
         if (i + 1 < (int)tab.size() && tab[i + 1] == "*" && i + 2 < (int)tab.size() && tab[i + 2][0] == 'X' &&
             i + 3 < (int)tab.size() && tab[i + 3] != "+" && tab[i + 3] != "-")
             return false;
-        cout << "last if passed for " + tab[i] << endl;
+        //cout << "last if passed for " + tab[i] << endl;
 
         if (tab[tab.size() - 1] == "-" || tab[tab.size() - 1] == "+" || tab[tab.size() - 1] == "*")
             return false;
@@ -235,6 +257,6 @@ bool Parser::constructSide(vector<string> tab)
 
 bool Parser::parseConstruct()
 {
-    cout << "parse construct function -" << endl;
+    //cout << "parse construct function -" << endl;
     return (constructSide(m_leftOpe) && constructSide(m_rightOpe));
 }

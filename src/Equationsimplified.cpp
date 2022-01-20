@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   EquationSimplified.cpp                             :+:      :+:    :+:   */
+/*   Equationsimplified.cpp                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:15:40 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/18 16:46:25 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/21 00:32:03 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,19 @@ void Equationsimplified::showReducedForm()
 {
     cout << "Reduced form: ";
     if (m_finalCoeff[0] != 0.0)
-        cout << m_finalCoeff[0];
+        cout << m_finalCoeff[0]<< " * X^0";
     else if (m_finalCoeff[0] == 0.0 && m_finalCoeff[1] == 0.0 && m_finalCoeff[2] == 0.0 && m_finalCoeff[3] == 0.0)
         cout << "0";
     if (m_finalCoeff[1] != 0.0)
     {
         if (m_finalCoeff[0] == 0 && m_finalCoeff[1] < 0.0)
-            cout << "-" << (-1 * m_finalCoeff[1]) << " * X";
+            cout << "-" << (-1 * m_finalCoeff[1]) << " * X^1";
         else if (m_finalCoeff[0] == 0 && m_finalCoeff[1] > 0.0)
-            cout << m_finalCoeff[1] << " * X";
+            cout << m_finalCoeff[1] << " * X^1";
         else if (m_finalCoeff[1] < 0.0)
-            cout << " - " << (-1 * m_finalCoeff[1]) << " * X";
+            cout << " - " << (-1 * m_finalCoeff[1]) << " * X^1";
         else
-            cout << " + " << m_finalCoeff[1] << " * X";
+            cout << " + " << m_finalCoeff[1] << " * X^1";
     }
     if (m_finalCoeff[2] != 0.0)
     {
@@ -91,22 +91,19 @@ void Equationsimplified::putCoeff(vector<string> opeTab, int side)
 {
     for (unsigned long i(0); i < opeTab.size(); i++)
     {
-        if ((i == 0 && opeTab.size() == 1 && strPotentialD(opeTab[i], true)) ||
-            (i > 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-") && strPotentialD(opeTab[i], false)) ||
-            (i > 0 && i + 1 == opeTab.size() && (opeTab[i - 1] == "+" || opeTab[i - 1] == "-") && strPotentialD(opeTab[i], false)) ||
-            (i == 0 && i + 1 < opeTab.size() && (opeTab[i + 1] == "+" || opeTab[i + 1] == "-") && strPotentialD(opeTab[i], true)))
+        if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^0")
 
             m_finalCoeff[0] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
 
-        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X" && i == 0 ? !strPotentialD(opeTab[i], true) : !strPotentialD(opeTab[i], false))
+        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^1")
 
             m_finalCoeff[1] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
 
-        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^2" && i == 0 ? !strPotentialD(opeTab[i], true) : !strPotentialD(opeTab[i], false))
+        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^2")
 
             m_finalCoeff[2] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
 
-        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^3" && i == 0 ? !strPotentialD(opeTab[i], true) : !strPotentialD(opeTab[i], false))
+        else if (i + 2 < opeTab.size() && opeTab[i + 1] == "*" && opeTab[i + 2] == "X^3")
 
             m_finalCoeff[3] += (i > 0 && opeTab[i - 1] == "-") ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
     }

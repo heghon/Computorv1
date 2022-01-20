@@ -6,11 +6,12 @@
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 18:04:18 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/18 17:21:49 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/21 00:51:17 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
+#include <cstring>
 #include "../inc/computor.h"
 #include "../inc/Parser.h"
 #include "../inc/Equation.h"
@@ -23,9 +24,21 @@ using namespace std;
 int badParsing()
 {
     cout << "Your equation is poorly constructed." << endl
-            << "Please follow this example: \"a + b * X + c * X^2 = d + e * X + f * X^2\"." << endl
+            << "Please follow these examples:" << endl
+            << "Normal : \"a * X^0 + b * X^1 + c * X^2 = d * X^0 + e * X^1 + f * X^2\"." << endl
+            << "Natural (option -n) : \"a + b * X + c * X^2 = d + e * X + f * X^2\"." << endl
             << "Respect the spaces." << endl << endl;
     return 0;
+}
+
+bool strPotentialPositiveI(string str)
+{
+    for (int i(0); i < (int)str.size(); i++)
+    {
+        if (!isdigit(str[i]))
+            return false;
+    }
+    return true;
 }
 
 bool strPotentialD(string str, bool first)
@@ -43,7 +56,7 @@ bool strPotentialD(string str, bool first)
         else if (!isdigit(str[i]))
             return false;
     }
-    cout << "strPotentialD : true returned for " << str << " and the first is " << first << endl;
+    //cout << "strPotentialD : true returned for " << str << " and the first is " << first << endl;
     return true;
 }
 
@@ -54,16 +67,16 @@ bool argHandler(int nbr, char **tab)
         if (nbr > 3)
             cout << "Warning: Too many parameters" << endl;
         cout << "Usage: ./computor (-n) <Polynomial equation>" << endl 
-            << "        Example : \"a * X^0 + b * X^1 + c * X^2 = d\"" << endl 
-            << "        Example natural : \"a + b * X + c * X^2 = d\" " << endl << endl;
+            << "        Example : \"a * X^0 + b * X^1 + c * X^2 = 0\"" << endl 
+            << "        Example natural : \"a + b * X + c * X^2 = 0\" " << endl << endl;
         return false;
     }
     if (nbr == 3 && strncmp(tab[1], "-n", 2))
     {
         cout << "Warning: parameters are not correctly implemented" << endl;
         cout << "Usage: ./computor (-n) <Polynomial equation>" << endl 
-            << "        Example : \"a * X^0 + b * X^1 + c * X^2 = d\"" << endl 
-            << "        Example natural : \"a + b * X + c * X^2 = d\" " << endl << endl;
+            << "        Example : \"a * X^0 + b * X^1 + c * X^2 = 0\"" << endl 
+            << "        Example natural : \"a + b * X + c * X^2 = 0\"" << endl << endl;
         return false;
     }
     return true;
@@ -132,9 +145,8 @@ int simpleHandler(int argc, char **argv)
     {
         // p.showTheEquation();
         parseNbr = p.parseCheckX();
+        //cout << "parseNbr = " << parseNbr << endl;
     }
-    else
-        return badParsing();
 
     if (argc == 2 && parseNbr >= 0 && parseNbr < 3) 
     {
@@ -144,10 +156,10 @@ int simpleHandler(int argc, char **argv)
         eq.showPolynomialDegree();
 
         Solver s(eq.getFinalCoeff());
-        // s.showCoeff();
+        //s.showCoeff();
         s.solveEquation();
         cout  << endl;
-    }
+    }/*
     else if (parseNbr > 2)
     {
         
@@ -164,7 +176,7 @@ int simpleHandler(int argc, char **argv)
             cout << "Polynomial degree > 3" << endl;
             cout << "The polynomial degree is strictly greater than 3, I can't solve (and I won't show you the reduced form, please consider my capacities)." << endl << endl;
         }
-    }
+    }*/
     return 0;
 }
 
