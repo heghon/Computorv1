@@ -47,42 +47,29 @@ void Equationsimplified::showPolynomialDegree()
 void Equationsimplified::showReducedForm()
 {
     cout << "Reduced form: ";
-    if (m_finalCoeff[0] != 0.0)
-        cout << m_finalCoeff[0]<< " * X^0";
-    else if (m_finalCoeff[0] == 0.0 && m_finalCoeff[1] == 0.0 && m_finalCoeff[2] == 0.0 && m_finalCoeff[3] == 0.0)
+    if (m_finalCoeff[0] == 0.0 && m_finalCoeff[1] == 0.0 && m_finalCoeff[2] == 0.0 && m_finalCoeff[3] == 0.0)
         cout << "0";
-    if (m_finalCoeff[1] != 0.0)
+    else
     {
-        if (m_finalCoeff[0] == 0 && m_finalCoeff[1] < 0.0)
-            cout << "-" << (-1 * m_finalCoeff[1]) << " * X^1";
-        else if (m_finalCoeff[0] == 0 && m_finalCoeff[1] > 0.0)
-            cout << m_finalCoeff[1] << " * X^1";
-        else if (m_finalCoeff[1] < 0.0)
+        cout << m_finalCoeff[0] << " * X^0";
+
+        if (m_finalCoeff[1] < 0.0)
             cout << " - " << (-1 * m_finalCoeff[1]) << " * X^1";
         else
             cout << " + " << m_finalCoeff[1] << " * X^1";
-    }
-    if (m_finalCoeff[2] != 0.0)
-    {
-        if (m_finalCoeff[0] == 0 && m_finalCoeff[1] == 0.0 && m_finalCoeff[2] > 0.0)
-            cout << "-" << (-1 * m_finalCoeff[2]) << " * X^2";
-        else if (m_finalCoeff[0] == 0 && m_finalCoeff[1] == 0.0 && m_finalCoeff[2] > 0.0)
-            cout << m_finalCoeff[2] << " * X^2";
-        else if (m_finalCoeff[2] < 0.0)
+
+        if (m_finalCoeff[2] < 0.0)
             cout << " - " << (-1 * m_finalCoeff[2]) << " * X^2";
         else
             cout << " + " << m_finalCoeff[2] << " * X^2";
-    }
-    if (m_finalCoeff[3] != 0.0)
-    {
-        if (m_finalCoeff[0] == 0 && m_finalCoeff[1] == 0.0 && m_finalCoeff[2] == 0.0 && m_finalCoeff[3] < 0.0)
-            cout << "-" << (-1 * m_finalCoeff[3]) << " * X^3";
-        else if (m_finalCoeff[0] == 0 && m_finalCoeff[1] == 0.0 && m_finalCoeff[2] == 0.0 && m_finalCoeff[3] > 0.0)
-            cout << m_finalCoeff[3] << " * X^3";
-        else if (m_finalCoeff[3] < 0.0)
-            cout << " - " << (-1 * m_finalCoeff[3]) << " * X^3";
-        else
-            cout << " + " << m_finalCoeff[3] << " * X^3";
+
+        if (m_finalCoeff[3] != 0.0)
+        {
+            if (m_finalCoeff[3] < 0.0)
+                cout << " - " << (-1 * m_finalCoeff[3]) << " * X^3";
+            else
+                cout << " + " << m_finalCoeff[3] << " * X^3";
+        }
     }
     cout << " = 0" << endl;
 }
@@ -118,11 +105,6 @@ void Equationsimplified::handleCoeff()
 
     putCoeff(m_leftOpe, 1);
     putCoeff(m_rightOpe, -1);
-    // cout << endl << "End of the Coeff - Coeffs are : " << endl;
-    // for (int i(0); i < m_finalCoeff.size(); i++)
-    // {
-    //     cout << "Coeff " << i << " : " << m_finalCoeff[i] << endl;
-    // }
 }
 
 void Equationsimplified::showTheEquation()

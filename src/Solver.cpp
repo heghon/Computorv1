@@ -70,7 +70,8 @@ void Solver::solveNoDegree()
 
 void Solver::solveImpossible()
 {
-    cout << "With a little logic, you can see that this equation is impossible, please rebuild it correctly." << endl;
+    cout << "With a little logic, you can see that this equation is impossible, there is no solution." 
+    << endl << "Please rebuild your equation correctly." << endl;
 }
 
 void Solver::solveOneDegree()

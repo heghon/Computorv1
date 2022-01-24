@@ -87,35 +87,29 @@ void Equation::showReducedForm()
 
 void Equation::putCoeff(vector<string> opeTab, int side)
 {
-    //cout << "In putCoeff, opeTab.size() = " << opeTab.size() << endl;
     for (unsigned long i(0); i < opeTab.size(); i++)
     {
-        //cout << "In the for, i = " << i << " et opeTab[i] = " << opeTab[i] << endl;
         if ((i == 0 && opeTab.size() == 1 && strPotentialD(opeTab[i], true)) ||
             (i > 0 && i + 1 < opeTab.size() && (opeTab[i + 1][0] == '+' || opeTab[i + 1][0] == '-') && (opeTab[i - 1][0] == '+' || opeTab[i - 1][0] == '-') && strPotentialD(opeTab[i], false)) ||
             (i > 0 && i + 1 == opeTab.size() && (opeTab[i - 1][0] == '+' || opeTab[i - 1][0] == '-') && strPotentialD(opeTab[i], false)) ||
             (i == 0 && i + 1 < opeTab.size() && (opeTab[i + 1][0] == '+' || opeTab[i + 1][0] == '-') && strPotentialD(opeTab[i], true)))
         {
-            //cout << "First if" << endl;
             m_finalCoeff[0] += (i > 0 && opeTab[i - 1][0] == '-') ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
         }
 
         else if (i + 2 < opeTab.size() && opeTab[i + 1][0] == '*' && opeTab[i + 2] == "X" && (i == 0 ? strPotentialD(opeTab[i], true) : strPotentialD(opeTab[i], false)))
         {
-            //cout << "Second if" << endl;
             m_finalCoeff[1] += (i > 0 && opeTab[i - 1][0] == '-') ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
         }
 
         else if (i + 2 < opeTab.size() && opeTab[i + 1][0] == '*' && opeTab[i + 2] == "X^2" && (i == 0 ? strPotentialD(opeTab[i], true) : strPotentialD(opeTab[i], false)))
         {
             m_finalCoeff[2] += (i > 0 && opeTab[i - 1][0] == '-') ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
-            //cout << "Third if" << endl;
         }
 
         else if (i + 2 < opeTab.size() && opeTab[i + 1][0] == '*' && opeTab[i + 2] == "X^3" && (i == 0 ? strPotentialD(opeTab[i], true) : strPotentialD(opeTab[i], false)))
         {
             m_finalCoeff[3] += (i > 0 && opeTab[i - 1][0] == '-') ? stod(opeTab[i]) * -1 * side : (stod(opeTab[i])) * side;
-            //cout << "Fourth if" << endl;
         }
     }
 }
@@ -129,11 +123,6 @@ void Equation::handleCoeff()
 
     putCoeff(m_leftOpe, 1);
     putCoeff(m_rightOpe, -1);
-    /*cout << endl << "End of the Coeff - Coeffs are : " << endl;
-    for (int i(0); i < (int)m_finalCoeff.size(); i++)
-    {
-        cout << "Coeff " << i << " : " << m_finalCoeff[i] << endl;
-    }*/
 }
 
 void Equation::showTheEquation()

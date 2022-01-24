@@ -56,7 +56,6 @@ bool strPotentialD(string str, bool first)
         else if (!isdigit(str[i]))
             return false;
     }
-    //cout << "strPotentialD : true returned for " << str << " and the first is " << first << endl;
     return true;
 }
 
@@ -90,7 +89,6 @@ int niceHandler(int argc, char **argv)
 
     if (p.equationInTwoTabs() && p.parseConstruct() && p.parseOrder() && p.parseCheckX() >= 0)
     {
-        // p.showTheEquation();
         parseNbr = p.parseCheckX();
     }
     else
@@ -104,7 +102,6 @@ int niceHandler(int argc, char **argv)
         eq.showPolynomialDegree();
 
         Solver s(eq.getFinalCoeff());
-        // s.showCoeff();
         s.solveEquation();
         cout  << endl;
     }
@@ -143,9 +140,7 @@ int simpleHandler(int argc, char **argv)
 
     if (p.equationInTwoTabs() && p.parseCheckX() >= 0)
     {
-        // p.showTheEquation();
         parseNbr = p.parseCheckX();
-        //cout << "parseNbr = " << parseNbr << endl;
     }
 
     if (argc == 2 && parseNbr >= 0 && parseNbr < 3) 
@@ -156,10 +151,9 @@ int simpleHandler(int argc, char **argv)
         eq.showPolynomialDegree();
 
         Solver s(eq.getFinalCoeff());
-        //s.showCoeff();
         s.solveEquation();
         cout  << endl;
-    }/*
+    }
     else if (parseNbr > 2)
     {
         
@@ -174,9 +168,10 @@ int simpleHandler(int argc, char **argv)
         else
         {
             cout << "Polynomial degree > 3" << endl;
-            cout << "The polynomial degree is strictly greater than 3, I can't solve (and I won't show you the reduced form, please consider my capacities)." << endl << endl;
+            cout << "The polynomial degree is strictly greater than 3, I can't solve." << endl;
+            cout << "(And I won't show you the reduced form, please consider my capacities)." << endl << endl;
         }
-    }*/
+    }
     return 0;
 }
 
