@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Parsersimplified.cpp                               :+:      :+:    :+:   */
+/*   ParserSimplified.cpp                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bmenant <bmenant@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/18 16:12:23 by bmenant           #+#    #+#             */
-/*   Updated: 2022/01/21 00:34:08 by bmenant          ###   ########.fr       */
+/*   Updated: 2022/01/24 17:57:10 by bmenant          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,6 @@ bool Parsersimplified::equationInTwoTabs()
     }
     if ((int)m_leftOpe.size() == 1 && m_leftOpe[0] == "")
         m_leftOpe.pop_back();
-        /*
-    cout << "Equation in 2 tabs - here are the two tabs : " << endl;
-    for (int i(0); i < (int)m_leftOpe.size(); i++)
-    {
-        cout << "Left - element numbr " << i << " : " + m_leftOpe[i] << endl;
-    }
-        for (int i(0); i < (int)m_rightOpe.size(); i++)
-    {
-        cout << "Right - element numbr " << i << " : " + m_rightOpe[i] << endl;
-    }
-    cout << endl;*/
     return true;
 }
 
@@ -106,21 +95,16 @@ int Parsersimplified::checkHandlerX(vector<string> tab)
     bool check(false);
     int deg(0);
 
-    //cout << "In checkHandlerX" << endl;
     for (int i(0); i < (int)tab.size(); i++)
     {
         check = false;
         if (tab[i][0] == 'X')
         {
-            //cout << "In the if, tab[i] = " << tab[i] << endl;
             string pwr = "";
             for (int k = 2; k < (int)tab[i].size(); k++)
             {
                 pwr.push_back(tab[i][k]);
             }
-            //cout << "After push back, pwr = " << pwr << ", and is pwr potentially int ? " << strPotentialPositiveI(pwr) << endl;
-            //if (pwr == "")
-                //cout << "So, pwr == \"\"" << endl;
             deg = deg > stoi(pwr) ? deg : stoi(pwr);
         }
     }
@@ -129,15 +113,11 @@ int Parsersimplified::checkHandlerX(vector<string> tab)
 
 int Parsersimplified::parseCheckX()
 {
-    //cout << endl << "In parse check x function - " << endl;
-
     int degL(0);
     int degR(0);
 
     degL = checkHandlerX(m_leftOpe);
-    // cout << endl << "After degL = " << degL << endl;
     degR = checkHandlerX(m_rightOpe);
-    // cout << endl << "After degR = " << degR  << endl;
 
     return (degL > degR ? degL : degR);
 }
